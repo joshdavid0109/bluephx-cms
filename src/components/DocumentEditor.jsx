@@ -26,7 +26,6 @@ import TextFieldsIcon from '@mui/icons-material/TextFields';
 
 const PREVIEW_WIDTH = '375px';
 const PREVIEW_HEIGHT = '667px';
-const TOOLBAR_WIDTH = '100px';
 
 function DocumentEditor({ documentId, onSaveSuccess, onCancel }) {
   const [title, setTitle] = useState('');
@@ -169,8 +168,6 @@ function DocumentEditor({ documentId, onSaveSuccess, onCancel }) {
     'link', 'image', 'video', 'clean', 'color', 'background', 'align'
   ];
 
-  const editorHeight = PREVIEW_HEIGHT;
-
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
       {/* Header Section */}
@@ -266,51 +263,46 @@ function DocumentEditor({ documentId, onSaveSuccess, onCancel }) {
                       Document Content
                     </Typography>
                     
-                    <Box sx={{ 
-                      display: 'flex', 
-                      gap: 2, 
-                      height: editorHeight,
-                      width: `calc(${PREVIEW_WIDTH} + ${TOOLBAR_WIDTH} + 16px)`,
-                      maxWidth: '100%',
-                      borderRadius: 2,
-                      overflow: 'hidden',
-                      border: '1px solid',
-                      borderColor: 'divider'
-                    }}>
-                      {/* Toolbar */}
+                    {/* Toolbar at the top */}
+                    <Paper 
+                      elevation={2} 
+                      sx={{ 
+                        mb: 2, 
+                        borderRadius: 2,
+                        backgroundColor: 'rgba(25, 118, 210, 0.02)',
+                        border: '1px solid',
+                        borderColor: 'divider'
+                      }}
+                    >
                       <Box
                         id="quill-toolbar"
                         sx={(theme) => ({
-                          width: TOOLBAR_WIDTH,
-                          flexShrink: 0,
-                          display: 'flex',
-                          flexDirection: 'column',
-                          backgroundColor: 'rgba(25, 118, 210, 0.05)',
-                          borderRight: `1px solid ${theme.palette.divider}`,
-                          p: 1,
-                          height: '100%',
-
+                          p: 2,
                           '& .ql-toolbar': {
                             border: 'none',
                             padding: 0,
                             margin: 0,
                             display: 'flex',
-                            flexDirection: 'column',
+                            flexWrap: 'wrap',
+                            gap: 1,
                             alignItems: 'center',
                             justifyContent: 'flex-start',
                           },
                           '& .ql-formats': {
                             display: 'flex',
-                            flexDirection: 'column',
-                            mb: 1,
-                            width: 'auto',
-                            flexWrap: 'nowrap',
+                            gap: 0.5,
                             alignItems: 'center',
+                            mr: 2,
+                            mb: 1,
+                            padding: '4px 8px',
+                            backgroundColor: 'rgba(255,255,255,0.7)',
+                            borderRadius: theme.shape.borderRadius,
+                            border: `1px solid ${theme.palette.divider}`,
                           },
                           '& button': {
-                            width: '36px',
-                            height: '36px',
-                            padding: '6px',
+                            width: '32px',
+                            height: '32px',
+                            padding: '4px',
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
@@ -322,92 +314,109 @@ function DocumentEditor({ documentId, onSaveSuccess, onCancel }) {
                             '&.ql-active': {
                               backgroundColor: theme.palette.primary.main,
                               color: theme.palette.primary.contrastText,
-                              transform: 'scale(1.05)',
-                              boxShadow: '0 2px 8px rgba(25, 118, 210, 0.3)'
+                              boxShadow: '0 2px 4px rgba(25, 118, 210, 0.3)'
                             },
                             '&:hover': {
                               backgroundColor: theme.palette.primary.light,
                               color: theme.palette.primary.contrastText,
-                              transform: 'translateY(-1px)',
-                              boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+                              transform: 'scale(1.05)',
                             }
                           },
                           '& select': {
-                            width: '60px',
-                            height: '32px',
+                            height: '28px',
                             border: `1px solid ${theme.palette.divider}`,
                             borderRadius: theme.shape.borderRadius,
                             backgroundColor: theme.palette.background.paper,
                             cursor: 'pointer',
-                            mb: 0.5,
                             fontSize: '0.8rem',
+                            padding: '2px 4px',
+                            minWidth: '70px',
                             transition: 'all 0.2s ease-in-out',
                             '&:hover': {
                               borderColor: theme.palette.primary.main,
-                              boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                              boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                             }
-                          },
-                          '& button .ql-stroke, & button .ql-fill': {
-                            strokeWidth: '1.5',
-                          },
+                          }
                         })}
                       >
                         <span className="ql-formats">
-                            <select className="ql-header">
-                                <option value="1"></option>
-                                <option value="2"></option>
-                                <option selected></option>
-                            </select>
+                          <select className="ql-header">
+                            <option value="1">H1</option>
+                            <option value="2">H2</option>
+                            <option selected>Normal</option>
+                          </select>
+                          <select className="ql-font">
+                            <option selected>Sans Serif</option>
+                            <option value="serif">Serif</option>
+                            <option value="monospace">Monospace</option>
+                          </select>
+                          <select className="ql-size">
+                            <option value="small">Small</option>
+                            <option selected>Normal</option>
+                            <option value="large">Large</option>
+                            <option value="huge">Huge</option>
+                          </select>
                         </span>
+                        
                         <span className="ql-formats">
-                            <select className="ql-font"></select>
+                          <button className="ql-bold" title="Bold"></button>
+                          <button className="ql-italic" title="Italic"></button>
+                          <button className="ql-underline" title="Underline"></button>
+                          <button className="ql-strike" title="Strike"></button>
                         </span>
+                        
                         <span className="ql-formats">
-                            <select className="ql-size"></select>
+                          <button className="ql-script" value="sub" title="Subscript"></button>
+                          <button className="ql-script" value="super" title="Superscript"></button>
                         </span>
+                        
                         <span className="ql-formats">
-                            <button className="ql-bold"></button>
-                            <button className="ql-italic"></button>
-                            <button className="ql-underline"></button>
-                            <button className="ql-strike"></button>
+                          <button className="ql-list" value="ordered" title="Numbered List"></button>
+                          <button className="ql-list" value="bullet" title="Bullet List"></button>
+                          <button className="ql-indent" value="-1" title="Decrease Indent"></button>
+                          <button className="ql-indent" value="+1" title="Increase Indent"></button>
                         </span>
+                        
                         <span className="ql-formats">
-                            <button className="ql-script" value="sub"></button>
-                            <button className="ql-script" value="super"></button>
+                          <select className="ql-align">
+                            <option selected>Left</option>
+                            <option value="center">Center</option>
+                            <option value="right">Right</option>
+                            <option value="justify">Justify</option>
+                          </select>
+                          <button className="ql-direction" value="rtl" title="Text Direction"></button>
                         </span>
+                        
                         <span className="ql-formats">
-                            <button className="ql-indent" value="-1"></button>
-                            <button className="ql-indent" value="+1"></button>
+                          <select className="ql-color" title="Text Color"></select>
+                          <select className="ql-background" title="Background Color"></select>
                         </span>
+                        
                         <span className="ql-formats">
-                            <button className="ql-direction" value="rtl"></button>
+                          <button className="ql-link" title="Insert Link"></button>
+                          <button className="ql-image" title="Insert Image"></button>
+                          <button className="ql-video" title="Insert Video"></button>
                         </span>
+                        
                         <span className="ql-formats">
-                            <button className="ql-list" value="ordered"></button>
-                            <button className="ql-list" value="bullet"></button>
-                        </span>
-                        <span className="ql-formats">
-                            <select className="ql-align"></select>
-                        </span>
-                        <span className="ql-formats">
-                            <button className="ql-link"></button>
-                            <button className="ql-image"></button>
-                            <button className="ql-video"></button>
-                        </span>
-                        <span className="ql-formats">
-                            <select className="ql-color"></select>
-                            <select className="ql-background"></select>
-                        </span>
-                        <span className="ql-formats">
-                            <button className="ql-clean"></button>
+                          <button className="ql-clean" title="Remove Formatting"></button>
                         </span>
                       </Box>
+                    </Paper>
 
-                      {/* Editor Area */}
+                    {/* Editor Area */}
+                    <Paper 
+                      elevation={2}
+                      sx={{
+                        borderRadius: 2,
+                        overflow: 'hidden',
+                        border: '1px solid',
+                        borderColor: 'divider',
+                        height: '500px'
+                      }}
+                    >
                       <Box
                         sx={(theme) => ({
-                          width: PREVIEW_WIDTH,
-                          flexShrink: 0,
                           height: '100%',
                           '& .ql-container': {
                             height: '100%',
@@ -415,7 +424,6 @@ function DocumentEditor({ documentId, onSaveSuccess, onCancel }) {
                             fontFamily: 'Roboto, sans-serif',
                             fontSize: theme.typography.body1.fontSize,
                             color: '#333333',
-                            overflowY: 'auto',
                           },
                           '& .ql-editor.ql-blank::before': {
                             color: theme.palette.text.secondary,
@@ -446,8 +454,8 @@ function DocumentEditor({ documentId, onSaveSuccess, onCancel }) {
                               marginBottom: '0.8em',
                               lineHeight: '1.2',
                             },
-                            '& h1': { fontSize: '1.5rem' },
-                            '& h2': { fontSize: '1.3rem' },
+                            '& h1': { fontSize: '1.8rem' },
+                            '& h2': { fontSize: '1.5rem' },
                             '& h3, & h4, & h5, & h6': {
                               fontFamily: 'Poppins, sans-serif',
                               fontWeight: 'bold',
@@ -468,21 +476,6 @@ function DocumentEditor({ documentId, onSaveSuccess, onCancel }) {
                               marginTop: '1em',
                               marginBottom: '1em',
                               display: 'block',
-                            },
-                            '& table': {
-                                width: '100%',
-                                tableLayout: 'fixed',
-                                wordBreak: 'break-all',
-                            },
-                            '& th, & td': {
-                                wordWrap: 'break-word',
-                                overflowWrap: 'break-word',
-                                wordBreak: 'break-word',
-                            },
-                            '& pre': {
-                                whiteSpace: 'pre-wrap',
-                                wordBreak: 'break-word',
-                                overflowX: 'hidden',
                             },
                             '& ul, & ol': {
                                 paddingLeft: '1.5em',
@@ -507,7 +500,7 @@ function DocumentEditor({ documentId, onSaveSuccess, onCancel }) {
                           readOnly={saving}
                         />
                       </Box>
-                    </Box>
+                    </Paper>
                   </Box>
 
                   {/* Action Buttons */}

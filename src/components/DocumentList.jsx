@@ -213,138 +213,138 @@ function DocumentList({ onCreateNewDocument, onOpenDocumentForEdit, onOpenDocume
             Create Document
           </Button>
         </Card>
+      
       ) : (
-        <Grid container spacing={3}>
+        <Box>
           {documents.map((docItem, index) => (
-            <Grid item xs={12} sm={6} md={4} key={docItem.id}>
-              <Fade in={true} timeout={300 + index * 100}>
-                <Card sx={{ 
-                  height: '100%',
+            <Fade in={true} timeout={300 + index * 100} key={docItem.id}>
+              <Card 
+                sx={{ 
                   display: 'flex',
                   flexDirection: 'column',
+                  mb: 3,
                   transition: 'all 0.3s ease-in-out',
                   cursor: 'pointer',
                   '&:hover': {
                     transform: 'translateY(-4px)',
                     boxShadow: '0 8px 25px rgba(0,0,0,0.12)'
                   }
-                }}>
-                  <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
-                      <Avatar sx={{ 
-                        bgcolor: 'primary.main', 
-                        mr: 2,
-                        width: 48,
-                        height: 48,
-                        fontSize: '1.1rem'
-                      }}>
-                        {getDocumentInitials(docItem.title)}
-                      </Avatar>
-                      <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                        <Typography 
-                          variant="h6" 
-                          component="h3"
-                          sx={{ 
-                            fontWeight: 600,
-                            mb: 1,
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap'
-                          }}
-                        >
-                          {docItem.title || "Untitled Document"}
-                        </Typography>
-                        <Chip 
-                          icon={<AccessTimeIcon />}
-                          label={formatDate(docItem.lastModified)}
-                          size="small"
-                          variant="outlined"
-                          sx={{ 
-                            fontSize: '0.75rem',
-                            height: 24
-                          }}
-                        />
-                      </Box>
+                }}
+              >
+                <CardContent sx={{ flexGrow: 1, p: 3 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
+                    <Avatar sx={{ 
+                      bgcolor: 'primary.main', 
+                      mr: 2,
+                      width: 48,
+                      height: 48,
+                      fontSize: '1.1rem'
+                    }}>
+                      {getDocumentInitials(docItem.title)}
+                    </Avatar>
+                    <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                      <Typography 
+                        variant="h6" 
+                        component="h3"
+                        sx={{ 
+                          fontWeight: 600,
+                          mb: 1,
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        {docItem.title || "Untitled Document"}
+                      </Typography>
+                      <Chip 
+                        icon={<AccessTimeIcon />}
+                        label={formatDate(docItem.lastModified)}
+                        size="small"
+                        variant="outlined"
+                        sx={{ 
+                          fontSize: '0.75rem',
+                          height: 24
+                        }}
+                      />
                     </Box>
-                    
-                    {/* Document preview/description could go here */}
-                    <Typography 
-                      variant="body2" 
-                      color="text.secondary"
-                      sx={{ 
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        display: '-webkit-box',
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: 'vertical',
-                        lineHeight: 1.4
-                      }}
-                    >
-                      {docItem.content ? 
-                        docItem.content.substring(0, 100) + (docItem.content.length > 100 ? '...' : '') :
-                        'No content available'
-                      }
-                    </Typography>
-                  </CardContent>
-                  
-                  <CardActions sx={{ 
+                  </Box>
+                  <Typography 
+                    variant="body2" 
+                    color="text.secondary"
+                    sx={{ 
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      lineHeight: 1.4
+                    }}
+                  >
+                    {docItem.content ? 
+                      docItem.content.substring(0, 100) + (docItem.content.length > 100 ? '...' : '') :
+                      'No content available'
+                    }
+                  </Typography>
+                </CardContent>
+                <CardActions 
+                  sx={{ 
                     p: 2, 
                     pt: 0,
                     justifyContent: 'flex-end',
                     borderTop: '1px solid',
                     borderColor: 'divider'
-                  }}>
-                    <Tooltip title="View Document">
-                      <IconButton 
-                        size="small"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onOpenDocumentForView(docItem.id);
-                        }}
-                        sx={{ 
-                          color: 'success.main',
-                          '&:hover': { backgroundColor: 'success.light' }
-                        }}
-                      >
-                        <VisibilityIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Edit Document">
-                      <IconButton 
-                        size="small"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onOpenDocumentForEdit(docItem.id);
-                        }}
-                        sx={{ 
-                          color: 'primary.main',
-                          '&:hover': { backgroundColor: 'primary.light' }
-                        }}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete Document">
-                      <IconButton 
-                        size="small"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          confirmDelete(docItem.id);
-                        }}
-                        sx={{ 
-                          color: 'error.main',
-                          '&:hover': { backgroundColor: 'error.light' }
-                        }}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </CardActions>
-                </Card>
-              </Fade>
-            </Grid>
+                  }}
+                >
+                  <Tooltip title="View Document">
+                    <IconButton 
+                      size="small"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onOpenDocumentForView(docItem.id);
+                      }}
+                      sx={{ 
+                        color: 'success.main',
+                        '&:hover': { backgroundColor: 'success.light' }
+                      }}
+                    >
+                      <VisibilityIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Edit Document">
+                    <IconButton 
+                      size="small"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onOpenDocumentForEdit(docItem.id);
+                      }}
+                      sx={{ 
+                        color: 'primary.main',
+                        '&:hover': { backgroundColor: 'primary.light' }
+                      }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Delete Document">
+                    <IconButton 
+                      size="small"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        confirmDelete(docItem.id);
+                      }}
+                      sx={{ 
+                        color: 'error.main',
+                        '&:hover': { backgroundColor: 'error.light' }
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
+                </CardActions>
+              </Card>
+            </Fade>
           ))}
-        </Grid>
+        </Box>
       )}
 
       {/* Delete Confirmation Dialog */}
